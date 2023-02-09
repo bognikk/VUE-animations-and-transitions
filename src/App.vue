@@ -12,6 +12,8 @@
 			@before-leave="beforeLeaveExample"
 			@leave="leaveExample"
 			@after-leave="afterLeaveExample"
+			@enter-cancelled="enterCancelledExample"
+			@leave-cancelled="leaveCancelledExample"
 		>
 			<!-- transition wrapper - for element's that are added to the DOM -->
 			<!-- can be used for animations as well not just transitions -->
@@ -43,6 +45,8 @@ export default {
 			blockAnimated: false,
 			paraIsVisible: false,
 			usersAreVisible: false,
+			enterInterval: null,
+			leaveInterval: null,
 		};
 	},
 	methods: {
@@ -67,10 +71,21 @@ export default {
 		beforeEnterExample(element) {
 			console.log('beforeEnter');
 			console.log(element);
+			element.style.opacity = 0;
 		},
-		enterExample(element) {
+		enterExample(element, done) {
 			console.log('enter');
 			console.log(element);
+
+			let round = 1;
+			this.enterInterval = setInterval(() => {
+				element.style.opacity = round * 0.01;
+				round++;
+				if (round > 100) {
+					clearInterval(this.enterInterval);
+					done();
+				}
+			}, 20);
 		},
 		afterEnterExample(element) {
 			console.log('afterEnter');
@@ -79,14 +94,33 @@ export default {
 		beforeLeaveExample(element) {
 			console.log('beforeLeave');
 			console.log(element);
+			element.style.opacity = 1;
 		},
-		leaveExample(element) {
+		leaveExample(element, done) {
 			console.log('leave');
 			console.log(element);
+
+			let round = 1;
+			this.leaveInterval = setInterval(() => {
+				element.style.opacity = 1 - round * 0.01;
+				round++;
+				if (round > 100) {
+					clearInterval(this.leaveInterval);
+					done();
+				}
+			}, 20);
 		},
 		afterLeaveExample(element) {
 			console.log('afterLeave');
 			console.log(element);
+		},
+		enterCancelledExample(element) {
+			console.log(element);
+			clearInterval(this.enterInterval);
+		},
+		leaveCancelledExample(element) {
+			console.log(element);
+			clearInterval(this.leaveInterval);
 		},
 	},
 };
@@ -149,34 +183,34 @@ button {
 }
 
 // VUE will add classes below to the transition component
-.para-enter-from {
-	// opacity: 0;
-	// transform: translateY(-30px);
-}
+// .para-enter-from {
+// 	// opacity: 0;
+// 	// transform: translateY(-30px);
+// }
 
-.para-enter-active {
-	// transition: all 0.3s ease-out;
-	animation: slide-scale 0.3s ease-out;
-}
+// .para-enter-active {
+// 	// transition: all 0.3s ease-out;
+// 	animation: slide-scale 0.3s ease-out;
+// }
 
-.para-enter-to {
-	// opacity: 1;
-	// transform: translateY(0);
-}
+// .para-enter-to {
+// 	// opacity: 1;
+// 	// transform: translateY(0);
+// }
 
-.para-leave-from {
-	// opacity: 1;
-	// transform: translateY(0);
-}
+// .para-leave-from {
+// 	// opacity: 1;
+// 	// transform: translateY(0);
+// }
 
-.para-leave-active {
-	animation: slide-scale 0.3s ease-out;
-}
+// .para-leave-active {
+// 	animation: slide-scale 0.3s ease-out;
+// }
 
-.para-leave-to {
-	// opacity: 0;
-	// transform: translateY(-30px);
-}
+// .para-leave-to {
+// 	// opacity: 0;
+// 	// transform: translateY(-30px);
+// }
 
 // button transition
 .fade-button-enter-from,
