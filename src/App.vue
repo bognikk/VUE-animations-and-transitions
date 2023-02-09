@@ -6,6 +6,7 @@
 	<div class="container">
 		<transition>
 			<!-- transition wrapper - for element's that are added to the DOM -->
+			<!-- can be used for animations as well not just transitions -->
 			<p v-if="paraIsVisible">This is only sometimes visible...</p>
 		</transition>
 		<button @click="toggleParagraph">Toggle Paragraph</button>
@@ -17,7 +18,7 @@
 	<div class="container">
 		<button @click="showDialog">Show Dialog</button>
 	</div>
-</template>  
+</template>
 
 <script>
 export default {
@@ -96,40 +97,42 @@ button {
 
 		&.animate {
 			// transform: translateX(-150px);
-			animation: slide-fade 0.3s ease-out forwards;
+			animation: slide-scale 0.3s ease-out forwards;
 		}
 	}
 }
 
+// VUE will add classes below to the transition component
 .v-enter-from {
-	opacity: 0;
-	transform: translateY(-30px);
+	// opacity: 0;
+	// transform: translateY(-30px);
 }
 
 .v-enter-active {
-	transition: all 0.3s ease-out;
+	// transition: all 0.3s ease-out;
+	animation: slide-scale 0.3s ease-out;
 }
 
 .v-enter-to {
-	opacity: 1;
-	transform: translateY(0);
+	// opacity: 1;
+	// transform: translateY(0);
 }
 
 .v-leave-from {
-	opacity: 1;
-	transform: translateY(0);
+	// opacity: 1;
+	// transform: translateY(0);
 }
 
 .v-leave-active {
-	transition: all 0.3s ease-in;
+	animation: slide-scale 0.3s ease-out;
 }
 
 .v-leave-to {
-	opacity: 0;
-	transform: translateY(-30px);
+	// opacity: 0;
+	// transform: translateY(-30px);
 }
 
-@keyframes slide-fade {
+@keyframes slide-scale {
 	0% {
 		transform: translateX(0) scale(1);
 	}
