@@ -4,7 +4,15 @@
 		<button @click="animateBlock">Animate</button>
 	</div>
 	<div class="container">
-		<transition name="para">
+		<transition
+			name="para"
+			@before-enter="beforeEnterExample"
+			@enter="enterExample"
+			@after-enter="afterEnterExample"
+			@before-leave="beforeLeaveExample"
+			@leave="leaveExample"
+			@after-leave="afterLeaveExample"
+		>
 			<!-- transition wrapper - for element's that are added to the DOM -->
 			<!-- can be used for animations as well not just transitions -->
 			<p v-if="paraIsVisible">This is only sometimes visible...</p>
@@ -55,6 +63,30 @@ export default {
 		},
 		hideUsers() {
 			this.usersAreVisible = false;
+		},
+		beforeEnterExample(element) {
+			console.log('beforeEnter');
+			console.log(element);
+		},
+		enterExample(element) {
+			console.log('enter');
+			console.log(element);
+		},
+		afterEnterExample(element) {
+			console.log('afterEnter');
+			console.log(element);
+		},
+		beforeLeaveExample(element) {
+			console.log('beforeLeave');
+			console.log(element);
+		},
+		leaveExample(element) {
+			console.log('leave');
+			console.log(element);
+		},
+		afterLeaveExample(element) {
+			console.log('afterLeave');
+			console.log(element);
 		},
 	},
 };
