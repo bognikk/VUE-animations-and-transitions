@@ -32,7 +32,7 @@ dialog {
 	padding: 1rem;
 	border: none;
 	border-radius: 12px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+	box-shadow: 0 2px 8px rgb(255, 255, 255);
 	background-color: white;
 }
 </style>
