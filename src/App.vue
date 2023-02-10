@@ -4,13 +4,59 @@
 			<component :is="slotProps.Component"></component>
 		</transition>
 	</router-view>
+	<router-view>
+		<div v-if="usersAreVisible" class="container">
+			<h5>animated lists</h5>
+			<users-list></users-list>
+		</div>
+		<div class="container">
+			<h5>transition between multiple elements</h5>
+			<!-- case in which you can have 2 elements because one is added at the time -->
+			<transition name="fade-button" mode="out-in">
+				<button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+				<button @click="hideUsers" v-else>Hide Users</button>
+			</transition>
+		</div>
+		<div class="container">
+			<h5>animating modal</h5>
+			<button @click="showDialog">Show Dialog</button>
+		</div>
+		<div class="container">
+			<h5>transition component</h5>
+			<!-- :css="false" disabled CSS -->
+			<transition
+				:css="false"
+				@before-enter="beforeEnterExample"
+				@enter="enterExample"
+				@after-enter="afterEnterExample"
+				@before-leave="beforeLeaveExample"
+				@leave="leaveExample"
+				@after-leave="afterLeaveExample"
+				@enter-cancelled="enterCancelledExample"
+				@leave-cancelled="leaveCancelledExample"
+			>
+				<!-- transition wrapper - for element's that are added to the DOM -->
+				<!-- can be used for animations as well not just transitions -->
+				<p v-if="paraIsVisible">This is only sometimes visible...</p>
+			</transition>
+			<button @click="toggleParagraph">Toggle Paragraph</button>
+		</div>
+		<div class="container">
+			<div class="block" :class="{ animate: blockAnimated }"></div>
+			<button @click="animateBlock">Animate</button>
+		</div>
+		<base-modal @close="hideDialog" :open="dialogIsVisible">
+			<p>This is a test dialog!</p>
+			<button @click="hideDialog">Close it!</button>
+		</base-modal>
+	</router-view>
 </template>
 
 <script>
-// import UsersList from './components/UsersList.vue';
+import UsersList from './components/UsersList.vue';
 export default {
 	components: {
-		// UsersList,
+		UsersList,
 	},
 	data() {
 		return {
@@ -110,7 +156,8 @@ body {
 	margin: 0;
 }
 
-button {
+button,
+a {
 	padding: 0.5rem 2rem;
 	border: 1px solid transparent;
 	border-radius: 12px;
@@ -223,5 +270,11 @@ button {
 	100% {
 		transform: translateX(-150px) scale(1);
 	}
+}
+
+h5 {
+	width: 100%;
+	margin: 0;
+	text-align: left;
 }
 </style>
