@@ -1,51 +1,16 @@
 <template>
-	<div class="container">
-		<users-list></users-list>
-	</div>
-	<div class="container">
-		<div class="block" :class="{ animate: blockAnimated }"></div>
-		<button @click="animateBlock">Animate</button>
-	</div>
-	<div class="container">
-		<!-- :css="false" disabled CSS -->
-		<transition
-			:css="false"
-			@before-enter="beforeEnterExample"
-			@enter="enterExample"
-			@after-enter="afterEnterExample"
-			@before-leave="beforeLeaveExample"
-			@leave="leaveExample"
-			@after-leave="afterLeaveExample"
-			@enter-cancelled="enterCancelledExample"
-			@leave-cancelled="leaveCancelledExample"
-		>
-			<!-- transition wrapper - for element's that are added to the DOM -->
-			<!-- can be used for animations as well not just transitions -->
-			<p v-if="paraIsVisible">This is only sometimes visible...</p>
-		</transition>
-		<button @click="toggleParagraph">Toggle Paragraph</button>
-	</div>
-	<div class="container">
-		<!-- case in which you can have 2 elements because one is added at the time -->
+	<router-view v-slot="slotProps">
 		<transition name="fade-button" mode="out-in">
-			<button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
-			<button @click="hideUsers" v-else>Hide Users</button>
+			<component :is="slotProps.Component"></component>
 		</transition>
-	</div>
-	<base-modal @close="hideDialog" :open="dialogIsVisible">
-		<p>This is a test dialog!</p>
-		<button @click="hideDialog">Close it!</button>
-	</base-modal>
-	<div class="container">
-		<button @click="showDialog">Show Dialog</button>
-	</div>
+	</router-view>
 </template>
 
 <script>
-import UsersList from './components/UsersList.vue';
+// import UsersList from './components/UsersList.vue';
 export default {
 	components: {
-		UsersList,
+		// UsersList,
 	},
 	data() {
 		return {
@@ -237,6 +202,13 @@ button {
 .fade-button-enter-to,
 .fade-button-leave-from {
 	opacity: 1;
+}
+
+.route-enter-active {
+	animation: slide-scale 0.3s ease-out;
+}
+.route-leave-active {
+	animation: slide-scale 0.3s ease-in;
 }
 
 @keyframes slide-scale {
